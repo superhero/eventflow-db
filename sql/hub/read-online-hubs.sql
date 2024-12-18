@@ -1,0 +1,3 @@
+SELECT *
+FROM hub
+WHERE quit IS NULL
