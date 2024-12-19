@@ -280,8 +280,8 @@ suite('@superhero/eventflow-db', async () =>
 
         await sub.test('Persisting a duplicate certificate should return false', async () => 
         {
-          const duplicatePersisted = await db.persistCertificate(crt)
-          assert.equal(duplicatePersisted, false, 'Duplicate certificate should not be persisted')
+          const isPersisted = await db.persistCertificate(crt)
+          assert.equal(isPersisted, false, 'Duplicate certificate should not be persisted')
         })
   
         await sub.test('Read a persisted certificate by id', async () => 
@@ -307,6 +307,21 @@ suite('@superhero/eventflow-db', async () =>
         {
           const revoked = await db.revokeCertificate(id)
           assert.ok(revoked, 'Certificate should be revoked')
+          await sub.test('Reading a revoked certificate should reject with an error', async () => 
+          {
+            await assert.rejects(
+              db.readCertificate(id),
+              { code: 'E_EVENTFLOW_DB_CERTIFICATE_NOT_FOUND' },
+              'Revoked certificate should not be readable'
+            )
+          })
+        })
+  
+        await sub.test('Revoke certificates that past there validity period', async (sub) => 
+        {
+          await db.persistCertificate(crt)
+          const revoked = await db.revokeCertificatesPastValidityPeriod()
+          assert.ok(revoked, 'Certificates should be revoked')
           await sub.test('Reading a revoked certificate should reject with an error', async () => 
           {
             await assert.rejects(

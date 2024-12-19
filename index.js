@@ -739,4 +739,20 @@ export default class DB
       throw error
     }
   }
+
+  async revokeCertificatesPastValidityPeriod()
+  {
+    try
+    {
+      const result = await this.gateway.query('certificate/revoke-past-validity')
+      return result.affectedRows
+    }
+    catch(reason)
+    {
+      const error = new Error('could not revoke certificates past validity period')
+      error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_REVOKE_PAST_VALIDITY'
+      error.cause = reason
+      throw error
+    }
+  }
 }

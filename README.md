@@ -481,6 +481,10 @@ npm test
         ▶ Revoke a persisted certificate
           ✔ Reading a revoked certificate should reject with an error (3.894204ms)
         ✔ Revoke a persisted certificate (14.21005ms)
+
+        ▶ Revoke certificates that past there validity period
+          ✔ Reading a revoked certificate should reject with an error (2.925027ms)
+        ✔ Revoke certificates that past there validity period (13.092224ms)
       ✔ Certificate management (44.130336ms)
     ✔ Persist a hub (339.721847ms)
 
