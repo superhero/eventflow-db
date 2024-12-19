@@ -343,5 +343,5 @@ suite('@superhero/eventflow-db', async () =>
     })
   })
 
-  after(() => db.destroy())
+  after(() => db.close())
 })
