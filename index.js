@@ -28,9 +28,23 @@ export default class DB
     this.gateway = gateway
   }
 
-  async destroy()
+  destroy()
   {
-    await this.gateway.close()
+    return new Promise((resolve, reject) =>
+    {
+      setImmediate(async () =>
+      {
+        try
+        {
+          await this.gateway.close()
+          resolve()
+        }
+        catch(error)
+        {
+          reject(error)
+        }
+      })
+    })
   }
 
   async createTableCertificate()

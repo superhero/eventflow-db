@@ -36,11 +36,12 @@ suite('@superhero/eventflow-db', async () =>
       {
         const hubs = await db.readOnlineHubs()
         assert.ok(hubs.length > 0, 'Online hubs should be returned')
-        assert.equal(hubs[0].id, hub.id)
-        assert.equal(hubs[0].external_ip, hub.external_ip)
-        assert.equal(hubs[0].internal_ip, hub.internal_ip)
-        assert.equal(hubs[0].external_port, hub.external_port)
-        assert.equal(hubs[0].internal_port, hub.internal_port)
+        const onlineHub = hubs[hubs.length - 1]
+        assert.equal(onlineHub.id, hub.id)
+        assert.equal(onlineHub.external_ip, hub.external_ip)
+        assert.equal(onlineHub.internal_ip, hub.internal_ip)
+        assert.equal(onlineHub.external_port, hub.external_port)
+        assert.equal(onlineHub.internal_port, hub.internal_port)
       })
 
       await sub.test('Persisting an event should generate an ID if not provided', async (sub) => 
