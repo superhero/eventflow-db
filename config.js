@@ -3,12 +3,9 @@
  */
 export default
 {
-  core:
+  locator:
   {
-    locator:
-    {
-      'eventflow/db' : '.'
-    }
+    '@superhero/eventflow-db' : './index.js'
   },
   eventflow:
   {
