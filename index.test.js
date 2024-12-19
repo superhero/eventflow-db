@@ -252,6 +252,71 @@ suite('@superhero/eventflow-db', async () =>
         const updated = await db.updateHubToQuit(hub.id)
         assert.ok(updated, 'Hub should be updated to quit')
       })
+
+      await sub.test('Certificate management', async (sub) => 
+      {
+        const
+          id  = Date.now().toString(36),
+          crt = 
+          {
+            id,
+            validity  : new Date(new Date().toISOString().substring(0, 19)),
+            cert      : 'test_certificate_value',
+            key       : Buffer.from('test_key'),
+            key_iv    : Buffer.from('test_key_iv'),
+            key_salt  : Buffer.from('test_key_salt'),
+            key_tag   : Buffer.from('test_key_tag'),
+            pass      : Buffer.from('test_pass'),
+            pass_iv   : Buffer.from('test_pass_iv'),
+            pass_salt : Buffer.from('test_pass_salt'),
+            pass_tag  : Buffer.from('test_pass_tag')
+          }
+
+        await sub.test('Persist a certificate', async () => 
+        {
+          const persisted = await db.persistCertificate(crt)
+          assert.ok(persisted, 'Certificate should be persisted')
+        })
+
+        await sub.test('Persisting a duplicate certificate should return false', async () => 
+        {
+          const duplicatePersisted = await db.persistCertificate(crt)
+          assert.equal(duplicatePersisted, false, 'Duplicate certificate should not be persisted')
+        })
+  
+        await sub.test('Read a persisted certificate by id', async () => 
+        {
+          const readCert = await db.readCertificate(id)
+
+          for(const key in crt)
+          {
+            assert.deepEqual(readCert[key], crt[key], 'Read certificate should match the persisted certificate')
+          }
+        })
+  
+        await sub.test('Reading a non-existing certificate should reject with an error', async () => 
+        {
+          await assert.rejects(
+            db.readCertificate('ROOT', 'non_existing_id'),
+            { code: 'E_EVENTFLOW_DB_CERTIFICATE_NOT_FOUND' },
+            'Should throw an error when certificate is not found'
+          )
+        })
+  
+        await sub.test('Revoke a persisted certificate', async (sub) => 
+        {
+          const revoked = await db.revokeCertificate(id)
+          assert.ok(revoked, 'Certificate should be revoked')
+          await sub.test('Reading a revoked certificate should reject with an error', async () => 
+          {
+            await assert.rejects(
+              db.readCertificate(id),
+              { code: 'E_EVENTFLOW_DB_CERTIFICATE_NOT_FOUND' },
+              'Revoked certificate should not be readable'
+            )
+          })
+        })
+      })
     })
   
     await sub.test('Reading a non existing event should reject with an error', async () => 

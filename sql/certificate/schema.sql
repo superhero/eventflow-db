@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS certificate 
+(
+  created   DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  updated   DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  version   INT UNSIGNED  NOT NULL DEFAULT 0,
+  id        VARCHAR(64)   NOT NULL,
+  cert      TEXT          NOT NULL,
+  `key`     BLOB          NOT NULL,
+  key_iv    VARBINARY(16) NOT NULL,
+  key_salt  VARBINARY(16) NOT NULL,
+  key_tag   VARBINARY(16) NOT NULL,
+  pass      BLOB          NOT NULL,
+  pass_iv   VARBINARY(16) NOT NULL,
+  pass_salt VARBINARY(16) NOT NULL,
+  pass_tag  VARBINARY(16) NOT NULL,
+  validity  DATETIME      NOT NULL,
+  revoked   DATETIME          NULL,
+
+  PRIMARY KEY (version, id)
+)
+ENGINE=InnoDB
+PARTITION BY RANGE (version) 
+(
+  PARTITION p_hot   VALUES LESS THAN (1),
+  PARTITION p_cold  VALUES LESS THAN MAXVALUE
+)

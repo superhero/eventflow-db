@@ -33,16 +33,31 @@ export default class DB
     await this.gateway.close()
   }
 
-  async createTableEventPublished()
+  async createTableCertificate()
   {
     try
     {
-      await this.gateway.query('event_published/schema')
+      await this.gateway.query('certificate/schema')
     }
     catch(reason)
     {
-      const error = new Error('could not create table event_published')
-      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_EVENT_PUBLISHED'
+      const error = new Error('could not create table certificate')
+      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_CERTIFICATE'
+      error.cause = reason
+      throw error
+    }
+  }
+
+  async createTableEvent()
+  {
+    try
+    {
+      await this.gateway.query('event/schema')
+    }
+    catch(reason)
+    {
+      const error = new Error('could not create table event')
+      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_EVENT'
       error.cause = reason
       throw error
     } 
@@ -78,6 +93,21 @@ export default class DB
     } 
   }
 
+  async createTableEventPublished()
+  {
+    try
+    {
+      await this.gateway.query('event_published/schema')
+    }
+    catch(reason)
+    {
+      const error = new Error('could not create table event_published')
+      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_EVENT_PUBLISHED'
+      error.cause = reason
+      throw error
+    } 
+  }
+
   async createTableEventScheduled()
   {
     try
@@ -88,36 +118,6 @@ export default class DB
     {
       const error = new Error('could not create table event_schedule')
       error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_EVENT_SCHEDULED'
-      error.cause = reason
-      throw error
-    } 
-  }
-
-  async createTableEvent()
-  {
-    try
-    {
-      await this.gateway.query('event/schema')
-    }
-    catch(reason)
-    {
-      const error = new Error('could not create table event')
-      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_EVENT'
-      error.cause = reason
-      throw error
-    } 
-  }
-
-  async createTableLog()
-  {
-    try
-    {
-      await this.gateway.query('log/schema')
-    }
-    catch(reason)
-    {
-      const error = new Error('could not create table log')
-      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_LOG'
       error.cause = reason
       throw error
     } 
@@ -138,8 +138,24 @@ export default class DB
     } 
   }
 
+  async createTableLog()
+  {
+    try
+    {
+      await this.gateway.query('log/schema')
+    }
+    catch(reason)
+    {
+      const error = new Error('could not create table log')
+      error.code  = 'E_EVENTFLOW_DB_CREATE_TABLE_LOG'
+      error.cause = reason
+      throw error
+    }
+  }
+
   async setupTableSchemas()
   {
+    await this.createTableCertificate()
     await this.createTableHub()
     await this.createTableEvent()
     await this.createTableEventCpid()
@@ -655,6 +671,70 @@ export default class DB
     {
       const error = new Error(`could not archive log for date: ${date}`)
       error.code  = 'E_EVENTFLOW_DB_LOG_ARCHIVE'
+      error.cause = reason
+      throw error
+    }
+  }
+
+  async readCertificate(id)
+  {
+    let result 
+
+    try
+    {
+      result = await this.gateway.query('certificate/read', [ id ])
+    }
+    catch(reason)
+    {
+      const error = new Error(`could not read certificate by id: ${id}`)
+      error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_READ'
+      error.cause = reason
+      throw error
+    }
+
+    if(0 === result.length)
+    {
+      const error = new Error(`certificate not found by id: ${id}`)
+      error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_NOT_FOUND'
+      throw error
+    }
+
+    return result[0]
+  }
+
+  async persistCertificate(certificate)
+  {
+    try
+    {
+      const result = await this.gateway.query('certificate/persist', [ certificate ])
+      return result.affectedRows > 0
+    }
+    catch(reason)
+    {
+      if('ER_DUP_ENTRY' === reason.code)
+      {
+        return false
+      }
+
+      const error = new Error(`could not persist certificate`)
+      error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_PERSIST'
+      error.cause = reason
+      error.certificate = certificate
+      throw error
+    }
+  }
+
+  async revokeCertificate(id)
+  {
+    try
+    {
+      const result = await this.gateway.query('certificate/revoke', [ id, id ])
+      return result.affectedRows > 0
+    }
+    catch(reason)
+    {
+      const error = new Error(`could not revoke certificate by id: ${id}`)
+      error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_REVOKE'
       error.cause = reason
       throw error
     }
