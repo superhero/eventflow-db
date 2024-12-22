@@ -5,7 +5,7 @@ export default
 {
   locator:
   {
-    '@superhero/eventflow-db' : './index.js'
+    '@superhero/eventflow-db' : true
   },
   eventflow:
   {

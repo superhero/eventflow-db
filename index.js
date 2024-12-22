@@ -1,7 +1,7 @@
 
 import Gateway            from '@superhero/db'
-import mysql2             from 'mysql2'
 import AdapterFactory     from '@superhero/db/adapter/mysql/factory.js'
+import mysql2             from 'mysql2'
 import path               from 'node:path'
 import { fileURLToPath }  from 'node:url'
 
