@@ -12,7 +12,6 @@ suite('@superhero/eventflow-db', async () =>
 
   locator.set('@superhero/config', config)
   await config.add('./config.js')
-
   const db = locate(locator)
 
   test('Setup table schemas', async (sub) =>
