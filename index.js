@@ -8,7 +8,7 @@ import { fileURLToPath }  from 'node:url'
 export function locate(locator)
 {
   const
-    config          = locator('@superhero/config').find('eventflow/db', {}),
+    config          = locator.config.find('eventflow/db', {}),
     adapterFactory  = new AdapterFactory(),
     adapter         = adapterFactory.create(mysql2, config),
     filePath        = fileURLToPath(path.join(path.dirname(import.meta.url), 'sql')),

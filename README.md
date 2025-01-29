@@ -423,87 +423,87 @@ npm test
 ▶ @superhero/eventflow-db
   ▶ Setup table schemas
     ▶ Persist a hub
-      ✔ Read online hubs (8.808208ms)
+      ✔ Read online hubs (6.657231ms)
 
       ▶ Persisting an event should generate an ID if not provided
-        ✔ Read an event by id should return the same data as when persisted the event (9.057985ms)
+        ✔ Read an event by id should return the same data as when persisted the event (6.927063ms)
 
         ▶ Schedule a persisted event
-          ✔ Read all scheduled events (5.28951ms)
-          ✔ Update scheduled event as executed (11.686935ms)
-          ✔ Update scheduled event as success (10.393756ms)
-          ✔ Update scheduled event as failed (9.877872ms)
-        ✔ Schedule a persisted event (50.493271ms)
+          ✔ Read all scheduled events (3.495457ms)
+          ✔ Update scheduled event as executed (8.137136ms)
+          ✔ Update scheduled event as success (4.61686ms)
+          ✔ Update scheduled event as failed (6.822805ms)
+        ✔ Schedule a persisted event (32.658117ms)
 
         ▶ Publish a persisted event
-          ✔ Update published event to consumed by hub (8.985592ms)
-          ✔ Update published event to consumed by spoke (10.847144ms)
-          ✔ Update published event to success (8.945934ms)
-          ✔ Update published event to failed (12.743366ms)
-          ✔ Update published event to orphan (12.484305ms)
-        ✔ Publish a persisted event (69.042999ms)
+          ✔ Update published event to consumed by hub (5.682705ms)
+          ✔ Update published event to consumed by spoke (6.462036ms)
+          ✔ Update published event to success (6.573691ms)
+          ✔ Update published event to failed (8.581383ms)
+          ✔ Update published event to orphan (6.094177ms)
+        ✔ Publish a persisted event (43.017241ms)
 
         ▶ Persist event cpid association
-          ✔ Read events by domain and cpid (6.375096ms)
-          ✔ Read associated cpid by event id (6.539711ms)
-          ✔ Delete associated cpid by event id (35.785772ms)
-          ✔ Read deleted associated cpid by event id returns empty (3.44164ms)
-        ✔ Persist event cpid association (63.474382ms)
+          ✔ Read events by domain and cpid (3.71914ms)
+          ✔ Read associated cpid by event id (7.035953ms)
+          ✔ Delete associated cpid by event id (6.621011ms)
+          ✔ Read deleted associated cpid by event id returns empty (4.727825ms)
+        ✔ Persist event cpid association (34.125991ms)
 
         ▶ Persist event eid association
-          ✔ Read events by eid (3.186193ms)
-          ✔ Read events by domain and eid (3.211094ms)
-          ✔ Read associated eid by event id (5.22712ms)
-          ✔ Delete associated eid by event id (4.791241ms)
-          ✔ Read deleted associated eid by event id returns empty (2.82022ms)
-        ✔ Persist event eid association (25.839658ms)
+          ✔ Read events by eid (3.884999ms)
+          ✔ Read events by domain and eid (5.055002ms)
+          ✔ Read associated eid by event id (5.857354ms)
+          ✔ Delete associated eid by event id (6.000871ms)
+          ✔ Read deleted associated eid by event id returns empty (3.435941ms)
+        ✔ Persist event eid association (35.837834ms)
 
         ▶ Delete event
-          ✔ Reading a deleted event rejects (2.870914ms)
-        ✔ Delete event (12.001935ms)
+          ✔ Reading a deleted event rejects (3.54941ms)
+        ✔ Delete event (12.321329ms)
 
         ▶ By domain and pid
-          ✔ Read event by domain and pid (4.653075ms)
-          ✔ Delete event by domain and pid (6.649683ms)
-          ✔ Read empty eventlog by domain and pid (2.870288ms)
-        ✔ By domain and pid (19.564013ms)
-      ✔ Persisting an event should generate an ID if not provided (257.977724ms)
-
-      ✔ Persist log (8.236839ms)
-      ✔ Update hub to quit (11.86896ms)
+          ✔ Read event by domain and pid (4.147919ms)
+          ✔ Delete event by domain and pid (6.651147ms)
+          ✔ Read empty eventlog by domain and pid (5.039975ms)
+        ✔ By domain and pid (24.294124ms)
+      ✔ Persisting an event should generate an ID if not provided (196.618539ms)
+      
+      ✔ Persist log (9.773113ms)
+      ✔ Update hub to quit (6.745869ms)
 
       ▶ Certificate management
-        ✔ Persist a certificate (9.410534ms)
-        ✔ Persisting a duplicate certificate should return false (3.669139ms)
-        ✔ Read a persisted certificate by id (9.817305ms)
-        ✔ Reading a non-existing certificate should reject with an error (3.705119ms)
+        ✔ Persist a certificate (11.285064ms)
+        ✔ Persisting a duplicate certificate should return false (3.597549ms)
+        ✔ Read a persisted certificate by id (9.74682ms)
+        ✔ Reading a non-existing certificate should reject with an error (3.670532ms)
 
         ▶ Revoke a persisted certificate
-          ✔ Reading a revoked certificate should reject with an error (3.894204ms)
-        ✔ Revoke a persisted certificate (14.21005ms)
+          ✔ Reading a revoked certificate should reject with an error (2.507398ms)
+        ✔ Revoke a persisted certificate (10.427673ms)
 
         ▶ Revoke certificates that past there validity period
-          ✔ Reading a revoked certificate should reject with an error (2.925027ms)
-        ✔ Revoke certificates that past there validity period (13.092224ms)
-      ✔ Certificate management (44.130336ms)
-    ✔ Persist a hub (339.721847ms)
+          ✔ Reading a revoked certificate should reject with an error (2.622701ms)
+        ✔ Revoke certificates that past there validity period (15.182145ms)
+      ✔ Certificate management (58.006904ms)
+    ✔ Persist a hub (302.207468ms)
 
-    ✔ Reading a non existing event should reject with an error (6.280731ms)
-  ✔ Setup table schemas (431.031157ms)
-✔ @superhero/eventflow-db (436.106715ms)
+    ✔ Reading a non existing event should reject with an error (3.189934ms)
+  ✔ Setup table schemas (516.946853ms)
+✔ @superhero/eventflow-db (519.11646ms)
 
-tests 43
+tests 45
 suites 1
-pass 43
+pass 45
 
 -------------------------------------------------------------------------------------------------------------------------
 file            | line % | branch % | funcs % | uncovered lines
 -------------------------------------------------------------------------------------------------------------------------
 config.js       | 100.00 |   100.00 |  100.00 | 
-index.js        |  69.41 |    56.25 |   97.92 | 43-48 58-62 73-77 88-92 103-107 118-122 133-137 148-153 186-191 203-207…
+index.js        |  69.26 |    56.57 |   97.96 | 43-48 58-62 73-77 88-92 103-107 118-122 133-137 148-153 186-191 203-207…
 index.test.js   | 100.00 |   100.00 |  100.00 | 
 -------------------------------------------------------------------------------------------------------------------------
-all files       |  79.42 |    70.83 |   98.92 | 
+all files       |  79.36 |    71.14 |   98.96 | 
 -------------------------------------------------------------------------------------------------------------------------
 ```
 

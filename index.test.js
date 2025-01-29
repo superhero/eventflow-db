@@ -1,4 +1,3 @@
-import Config     from '@superhero/config'
 import Locator    from '@superhero/locator'
 import { locate } from '@superhero/eventflow-db'
 import assert     from 'node:assert/strict'
@@ -7,10 +6,9 @@ import { after, suite, test }  from 'node:test'
 suite('@superhero/eventflow-db', async () =>
 {
   const 
-    config  = new Config(),
-    locator = new Locator()
+    locator = new Locator(),
+    config  = locator.config
 
-  locator.set('@superhero/config', config)
   await config.add('./config.js')
   const db = locate(locator)
 
