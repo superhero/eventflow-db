@@ -270,32 +270,51 @@ export default class DB
     return result
   }
 
-  async persistEventCpid(event_id, cpid)
+  async readEventsByDomainAndPidAndNames(domain, pid, names)
   {
+    let result
+
     try
     {
-      const result = await this.gateway.query('event_cpid/persist', [ event_id, cpid ])
-      return result.affectedRows > 0
+      result = await this.gateway.query('event/read-by-pid-domain-names', [ pid, domain, names ])
     }
     catch(reason)
     {
-      const error = new Error(`Could not persist event (${event_id}) and cpid (${cpid}) association`)
-      error.code  = 'E_EVENTFLOW_DB_EVENT_CPID_PERSIST'
+      const error = new Error(`could not read event by pid: ${pid} and domain: ${domain}`)
+      error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID'
       error.cause = reason
       throw error
     } 
+
+    return result
   }
 
-  async deleteEventCpid(event_id, cpid)
+  async persistEventCpid(event_id, domain, cpid)
   {
     try
     {
-      const result = await this.gateway.query('event_cpid/delete', [ event_id, cpid ])
+      const result = await this.gateway.query('event_cpid/persist', [ event_id, domain, cpid ])
       return result.affectedRows > 0
     }
     catch(reason)
     {
-      const error = new Error(`Could not delete event (${event_id}) and cpid (${cpid}) association`)
+      const error = new Error(`Could not persist event (${event_id}) and cpid (${domain} › ${cpid}) association`)
+      error.code  = 'E_EVENTFLOW_DB_EVENT_CPID_PERSIST'
+      error.cause = reason
+      throw error
+    }
+  }
+
+  async deleteEventCpid(event_id, domain, cpid)
+  {
+    try
+    {
+      const result = await this.gateway.query('event_cpid/delete', [ event_id, domain, cpid ])
+      return result.affectedRows > 0
+    }
+    catch(reason)
+    {
+      const error = new Error(`Could not delete event (${event_id}) and cpid (${domain} › ${cpid}) association`)
       error.code  = 'E_EVENTFLOW_DB_EVENT_CPID_DELETE'
       error.cause = reason
       throw error
@@ -318,7 +337,7 @@ export default class DB
       throw error
     } 
 
-    return result.map((row) => row.cpid)
+    return result.map(({ domain, cpid }) => ({ domain, cpid }))
   }
 
   async readEventsByDomainAndCpid(domain, cpid)
@@ -329,11 +348,11 @@ export default class DB
     }
     catch(reason)
     {
-      const error = new Error(`could not read events by domain: ${domain} and cpid: ${cpid}`)
+      const error = new Error(`could not read events by: ${domain} › ${cpid}`)
       error.code  = 'E_EVENTFLOW_DB_EVENT_BY_DOMAIN_AND_CPID_READ'
       error.cause = reason
       throw error
-    } 
+    }
   }
 
   async persistEventEid(event_id, eid)
