@@ -9,7 +9,8 @@ suite('@superhero/eventflow-db', async () =>
     locator = new Locator(),
     config  = locator.config
 
-  await config.add('./config.js')
+  const { filepath, config: resolved } = await config.resolve('./config.js')
+  config.add(filepath, resolved)
   const db = locate(locator)
 
   test('Setup table schemas', async (sub) =>
