@@ -4,3 +4,4 @@ JOIN event
   ON event_id = id
 WHERE eid = ?
   AND domain = ?
+ORDER BY timestamp ASC

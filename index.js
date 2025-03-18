@@ -261,8 +261,27 @@ export default class DB
     }
     catch(reason)
     {
-      const error = new Error(`could not read event by pid: ${pid} and domain: ${domain}`)
+      const error = new Error(`could not read events by pid: ${pid} and domain: ${domain}`)
       error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID'
+      error.cause = reason
+      throw error
+    } 
+
+    return result
+  }
+
+  async readEventsByDomainAndPidBetweenTimestamps(domain, pid, timestampMin, timestampMax)
+  {
+    let result
+
+    try
+    {
+      result = await this.gateway.query('event/read-by-pid-domain-betweeen-timestamps', [ pid, domain, timestampMin, timestampMax ])
+    }
+    catch(reason)
+    {
+      const error = new Error(`could not read events by pid: ${pid} and domain: ${domain}`)
+      error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID_BETWEEN_TIMESTAMPS'
       error.cause = reason
       throw error
     } 
@@ -280,7 +299,7 @@ export default class DB
     }
     catch(reason)
     {
-      const error = new Error(`could not read event by pid: ${pid} and domain: ${domain}`)
+      const error = new Error(`could not read events by pid: ${pid} and domain: ${domain}`)
       error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID'
       error.cause = reason
       throw error
@@ -414,7 +433,7 @@ export default class DB
     }
     catch(reason)
     {
-      const error = new Error(`could not read event by eid: ${eid}`)
+      const error = new Error(`could not read events by eid: ${eid}`)
       error.code  = 'E_EVENTFLOW_DB_EVENTS_READ_BY_EID'
       error.cause = reason
       throw error
