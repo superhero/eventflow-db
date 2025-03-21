@@ -1,6 +1,6 @@
 {
   "name": "@superhero/eventflow-db",
-  "version": "4.2.4",
+  "version": "4.2.5",
   "description": "Eventflow db is a set of common database logic in the eventflow ecosystem.",
   "keywords": [
     "eventflow"

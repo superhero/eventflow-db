@@ -13,6 +13,7 @@ export default
     {
       debug           : process.env.EVENTFLOW_MYSQL_DEBUG             ?? false,
       insecureAuth    : process.env.EVENTFLOW_MYSQL_INSECURE_AUTH     ?? false,
+      enableKeepAlive : process.env.EVENTFLOW_MYSQL_ENABLE_KEEP_ALIVE ?? true,
       connectionLimit : process.env.EVENTFLOW_MYSQL_CONNECTION_LIMIT  ?? '5',
       flags           : process.env.EVENTFLOW_MYSQL_FLAGS             ?? '',
       charset         : process.env.EVENTFLOW_MYSQL_CHARSET           ?? 'UTF8_GENERAL_CI',
