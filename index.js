@@ -680,6 +680,22 @@ export default class DB
     } 
   }
 
+  async hasHubQuit(hub)
+  {
+    try
+    {
+      const result = await this.gateway.query('hub/read-quit-hub', [ hub ])
+      return result.length > 0
+    }
+    catch(reason)
+    {
+      const error = new Error(`could not check if hub: ${hub} has quit`)
+      error.code  = 'E_EVENTFLOW_DB_HUB_HAS_QUIT'
+      error.cause = reason
+      throw error
+    }
+  }
+
   async persistLog(log)
   {
     try

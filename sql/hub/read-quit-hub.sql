@@ -1,0 +1,4 @@
+SELECT *
+FROM hub
+WHERE id = ?
+  AND quit IS NOT NULL
