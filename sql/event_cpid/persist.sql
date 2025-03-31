@@ -1,3 +1,4 @@
-INSERT
-INTO event_cpid
-SET event_id = ?, cpid = ?
+INSERT INTO event_cpid
+SET
+  event_id = ?,
+  cpid     = ?

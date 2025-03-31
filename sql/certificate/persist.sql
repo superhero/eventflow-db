@@ -1,2 +1,1 @@
-INSERT INTO certificate
-SET ?
+INSERT INTO certificate SET ?

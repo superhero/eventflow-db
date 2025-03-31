@@ -21,7 +21,7 @@ export default
       queueLimit            : process.env.EVENTFLOW_MYSQL_QUEUE_LIMIT         ?? 0,
       connectionLimit       : process.env.EVENTFLOW_MYSQL_CONNECTION_LIMIT    ?? 10,
       flags                 : process.env.EVENTFLOW_MYSQL_FLAGS               ?? '',
-      charset               : process.env.EVENTFLOW_MYSQL_CHARSET             ?? 'UTF8_GENERAL_CI',
+      charset               : process.env.EVENTFLOW_MYSQL_CHARSET             ?? 'utf8mb4',
       timezone              : process.env.EVENTFLOW_MYSQL_TIMEZONE            ?? 'Z',
       host                  : process.env.EVENTFLOW_MYSQL_HOST                ?? 'localhost',
       port                  : process.env.EVENTFLOW_MYSQL_PORT                ?? '3306',

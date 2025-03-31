@@ -1,3 +1,1 @@
-INSERT
-INTO event_scheduled
-SET ?
+INSERT INTO event_scheduled SET ?

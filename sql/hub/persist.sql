@@ -1,3 +1,1 @@
-INSERT
-INTO hub
-SET ?
+INSERT INTO hub SET ?

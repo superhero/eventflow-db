@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS event_scheduled 
 (
-  event_id    VARCHAR(64) NOT NULL,
+  event_id    VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
   timestamp   DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   scheduled   DATETIME    NOT NULL,
   executed    DATETIME        NULL,

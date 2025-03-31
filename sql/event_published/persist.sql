@@ -1,3 +1,1 @@
-INSERT
-INTO event_published
-SET ?
+INSERT INTO event_published SET ?

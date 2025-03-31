@@ -1,3 +1,6 @@
-SELECT domain, cpid
+SELECT 
+  domain, 
+  cpid
+
 FROM event_cpid
-WHERE event_id = ?
+WHERE event_id = CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin

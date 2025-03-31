@@ -1,3 +1,3 @@
 SELECT *
 FROM event
-WHERE id = ?
+WHERE id = CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin

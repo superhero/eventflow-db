@@ -23,6 +23,8 @@ export function locate(locator)
  */
 export default class DB
 {
+  escape = mysql2.escape
+
   constructor(gateway)
   {
     this.gateway = gateway
@@ -295,7 +297,8 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event/read-by-pid-domain-names', [ pid, domain, names ])
+      const castings = names.map(() => `CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin`).join(',')
+      result = await this.gateway.query('event/read-by-pid-domain-names', [ castings, pid, domain, ...names ])
     }
     catch(reason)
     {

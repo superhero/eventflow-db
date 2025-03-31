@@ -1,4 +1,4 @@
 SELECT *
 FROM hub
-WHERE id = ?
+WHERE id = CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin
   AND quit IS NOT NULL

@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS hub 
 (
-  id            VARCHAR(64)       NOT NULL,
+  id            VARCHAR(64)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
   timestamp     DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  external_ip   VARCHAR(16)       NOT NULL,
+  external_ip   VARCHAR(16)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
   external_port SMALLINT UNSIGNED NOT NULL,
-  internal_ip   VARCHAR(16)       NOT NULL,
+  internal_ip   VARCHAR(16)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
   internal_port SMALLINT UNSIGNED NOT NULL,
   quit          DATETIME              NULL,
 

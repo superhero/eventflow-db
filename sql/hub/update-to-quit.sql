@@ -1,4 +1,4 @@
 UPDATE hub
 SET quit = UTC_TIMESTAMP()
-WHERE id = ?
+WHERE id = CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin
   AND quit IS NULL

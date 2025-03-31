@@ -1,3 +1,1 @@
-INSERT
-INTO log
-SET ?
+INSERT INTO log SET ?

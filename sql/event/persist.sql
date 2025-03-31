@@ -1,3 +1,1 @@
-INSERT
-INTO event
-SET ?
+INSERT INTO event SET ?
