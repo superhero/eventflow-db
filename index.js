@@ -30,6 +30,11 @@ export default class DB
     this.gateway = gateway
   }
 
+  async destroy()
+  {
+    await this.close()
+  }
+
   async close()
   {
     await this.gateway.close()
@@ -306,7 +311,7 @@ export default class DB
       error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID'
       error.cause = reason
       throw error
-    } 
+    }
 
     return result
   }
