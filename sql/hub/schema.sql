@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS hub 
 (
-  id            VARCHAR(64)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  id            VARCHAR(64)       NOT NULL,
   timestamp     DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  external_ip   VARCHAR(16)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  external_ip   VARCHAR(16)       NOT NULL,
   external_port SMALLINT UNSIGNED NOT NULL,
-  internal_ip   VARCHAR(16)       NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  internal_ip   VARCHAR(16)       NOT NULL,
   internal_port SMALLINT UNSIGNED NOT NULL,
   quit          DATETIME              NULL,
 
@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS hub
   INDEX idx_internal_ip_port (internal_ip, internal_port)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin

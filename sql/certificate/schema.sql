@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS certificate
   created   DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   updated   DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   version   INT UNSIGNED  NOT NULL DEFAULT 0,
-  id        VARCHAR(64)   NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  cert      TEXT          NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  id        VARCHAR(64)   NOT NULL,
+  cert      TEXT          NOT NULL,
   `key`     BLOB          NOT NULL,
   key_iv    VARBINARY(16) NOT NULL,
   key_salt  VARBINARY(16) NOT NULL,
@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS certificate
   PRIMARY KEY (version, id)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin
 PARTITION BY RANGE (version) 
 (
   PARTITION p_hot   VALUES LESS THAN (1),

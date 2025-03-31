@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS event_published 
 (
-  event_id        VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  event_id        VARCHAR(64) NOT NULL,
   published       DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  publisher       VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  consumer        VARCHAR(64)     NULL CHARACTER SET ascii COLLATE ascii_bin,
-  hub             VARCHAR(64)     NULL CHARACTER SET ascii COLLATE ascii_bin,
+  publisher       VARCHAR(64) NOT NULL,
+  consumer        VARCHAR(64)     NULL,
+  hub             VARCHAR(64)     NULL,
   consumed_hub    DATETIME        NULL,
   consumed_spoke  DATETIME        NULL,
   success         DATETIME        NULL,
@@ -21,3 +21,5 @@ CREATE TABLE IF NOT EXISTS event_published
   INDEX idx_consumed_spoke  (consumed_spoke)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin

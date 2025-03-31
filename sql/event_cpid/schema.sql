@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS event_cpid 
 (
-  event_id  VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  domain    VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  cpid      VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  event_id  VARCHAR(64) NOT NULL,
+  domain    VARCHAR(64) NOT NULL,
+  cpid      VARCHAR(64) NOT NULL,
 
   PRIMARY KEY (event_id, domain, cpid),
   FOREIGN KEY (event_id) REFERENCES event (id)
@@ -11,3 +11,5 @@ CREATE TABLE IF NOT EXISTS event_cpid
   INDEX idx_domain_cpid (domain, cpid)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin

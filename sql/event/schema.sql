@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS event
 (
-  id        VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  id        VARCHAR(64) NOT NULL,
   timestamp DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  domain    VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  rid       VARCHAR(64)     NULL CHARACTER SET ascii COLLATE ascii_bin,
-  pid       VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
-  name      VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  domain    VARCHAR(64) NOT NULL,
+  rid       VARCHAR(64)     NULL,
+  pid       VARCHAR(64) NOT NULL,
+  name      VARCHAR(64) NOT NULL,
   data      JSON        NOT NULL,
 
   PRIMARY KEY (id),
@@ -17,3 +17,5 @@ CREATE TABLE IF NOT EXISTS event
   INDEX idx_domain_pid  (domain, pid, timestamp)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin

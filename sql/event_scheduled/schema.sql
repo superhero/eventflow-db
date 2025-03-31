@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS event_scheduled 
 (
-  event_id    VARCHAR(64) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
+  event_id    VARCHAR(64) NOT NULL,
   timestamp   DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   scheduled   DATETIME    NOT NULL,
   executed    DATETIME        NULL,
@@ -18,3 +18,5 @@ CREATE TABLE IF NOT EXISTS event_scheduled
   INDEX idx_failed      (failed)
 )
 ENGINE=InnoDB
+DEFAULT CHARACTER SET ascii
+DEFAULT COLLATE ascii_bin
