@@ -185,7 +185,7 @@ export default class DB
         id    = event.id ?? this.#generateEventId(),
         data  = JSON.stringify(event.data ?? {})
 
-      await this.gateway.query('event/persist', [{ ...event, id, data }])
+      await this.gateway.query('event/persist', { ...event, id, data })
 
       return id
     }
@@ -203,7 +203,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event/delete-by-id', [ id ])
+      const result = await this.gateway.query('event/delete-by-id', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -219,7 +219,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event/delete-by-pid-domain', [ pid, domain ])
+      const result = await this.gateway.query('event/delete-by-pid-domain', pid, domain)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -237,7 +237,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event/read-by-id', [ id ])
+      result = await this.gateway.query('event/read-by-id', id)
     }
     catch(reason)
     {
@@ -264,7 +264,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event/read-by-pid-domain', [ pid, domain ])
+      result = await this.gateway.query('event/read-by-pid-domain', pid, domain)
     }
     catch(reason)
     {
@@ -283,7 +283,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event/read-by-pid-domain-betweeen-timestamps', [ pid, domain, timestampMin, timestampMax ])
+      result = await this.gateway.query('event/read-by-pid-domain-betweeen-timestamps', pid, domain, timestampMin, timestampMax)
     }
     catch(reason)
     {
@@ -303,7 +303,7 @@ export default class DB
     try
     {
       const castings = names.map(() => `CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin`).join(',')
-      result = await this.gateway.query('event/read-by-pid-domain-names', [ castings, pid, domain, ...names ])
+      result = await this.gateway.query('event/read-by-pid-domain-names', castings, pid, domain, ...names)
     }
     catch(reason)
     {
@@ -320,7 +320,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_cpid/persist', [ event_id, domain, cpid ])
+      const result = await this.gateway.query('event_cpid/persist', event_id, domain, cpid)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -336,7 +336,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_cpid/delete', [ event_id, domain, cpid ])
+      const result = await this.gateway.query('event_cpid/delete', event_id, domain, cpid)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -354,7 +354,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event_cpid/read-by-event_id', [ id ])
+      result = await this.gateway.query('event_cpid/read-by-event_id', id)
     }
     catch(reason)
     {
@@ -371,7 +371,7 @@ export default class DB
   {
     try
     {
-      return await this.gateway.query('event_cpid/read-by-cpid-domain', [ cpid, domain ])
+      return await this.gateway.query('event_cpid/read-by-cpid-domain', cpid, domain)
     }
     catch(reason)
     {
@@ -386,7 +386,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_eid/persist', [ event_id, eid ])
+      const result = await this.gateway.query('event_eid/persist', event_id, eid)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -402,7 +402,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_eid/delete', [ event_id, eid ])
+      const result = await this.gateway.query('event_eid/delete', event_id, eid)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -420,7 +420,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('event_eid/read-by-event_id', [ id ])
+      result = await this.gateway.query('event_eid/read-by-event_id', id)
     }
     catch(reason)
     {
@@ -437,7 +437,7 @@ export default class DB
   {
     try
     {
-      return await this.gateway.query('event_eid/read-by-eid', [ eid ])
+      return await this.gateway.query('event_eid/read-by-eid', eid)
     }
     catch(reason)
     {
@@ -452,7 +452,7 @@ export default class DB
   {
     try
     {
-      return await this.gateway.query('event_eid/read-by-eid-domain', [ eid, domain ])
+      return await this.gateway.query('event_eid/read-by-eid-domain', eid, domain)
     }
     catch(reason)
     {
@@ -467,7 +467,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/persist', [ publishedEvent ])
+      const result = await this.gateway.query('event_published/persist', publishedEvent)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -484,7 +484,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/update-to-consumed-by-hub', [ hub, id ])
+      const result = await this.gateway.query('event_published/update-to-consumed-by-hub', hub, id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -500,7 +500,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/update-to-consumed-by-spoke', [ spoke, id ])
+      const result = await this.gateway.query('event_published/update-to-consumed-by-spoke', spoke, id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -516,7 +516,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/update-to-orphan', [ id ])
+      const result = await this.gateway.query('event_published/update-to-orphan', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -532,7 +532,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/update-to-success', [ id ])
+      const result = await this.gateway.query('event_published/update-to-success', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -548,7 +548,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_published/update-to-failed', [ id ])
+      const result = await this.gateway.query('event_published/update-to-failed', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -564,7 +564,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_scheduled/persist', [ scheduledEvent ])
+      const result = await this.gateway.query('event_scheduled/persist', scheduledEvent)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -596,7 +596,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_scheduled/update-executed', [ id ])
+      const result = await this.gateway.query('event_scheduled/update-executed', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -612,7 +612,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_scheduled/update-success', [ id ])
+      const result = await this.gateway.query('event_scheduled/update-success', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -628,7 +628,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('event_scheduled/update-failed', [ id ])
+      const result = await this.gateway.query('event_scheduled/update-failed', id)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -644,7 +644,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('hub/persist', [ hub ])
+      const result = await this.gateway.query('hub/persist', hub)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -676,7 +676,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('hub/update-to-quit', [ hub ])
+      const result = await this.gateway.query('hub/update-to-quit', hub)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -692,7 +692,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('hub/read-quit-hub', [ hub ])
+      const result = await this.gateway.query('hub/read-quit-hub', hub)
       return result.length > 0
     }
     catch(reason)
@@ -709,7 +709,7 @@ export default class DB
     try
     {
       log.error = JSON.stringify(log.error ?? {})
-      await this.gateway.query('log/persist', [ log ])
+      await this.gateway.query('log/persist', log)
     }
     catch(reason)
     {
@@ -727,7 +727,7 @@ export default class DB
     try
     {
       const partition = date.replace(/-/g, '')
-      await this.gateway.query('log/archive', [ partition, date ])
+      await this.gateway.query('log/archive', partition, date)
     }
     catch(reason)
     {
@@ -744,7 +744,7 @@ export default class DB
 
     try
     {
-      result = await this.gateway.query('certificate/read', [ id ])
+      result = await this.gateway.query('certificate/read', id)
     }
     catch(reason)
     {
@@ -768,7 +768,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('certificate/persist', [ certificate ])
+      const result = await this.gateway.query('certificate/persist', certificate)
       return result.affectedRows > 0
     }
     catch(reason)
@@ -790,7 +790,7 @@ export default class DB
   {
     try
     {
-      const result = await this.gateway.query('certificate/revoke', [ id, id ])
+      const result = await this.gateway.query('certificate/revoke', id, id)
       return result.affectedRows > 0
     }
     catch(reason)
