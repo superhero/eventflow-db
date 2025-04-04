@@ -1,7 +1,10 @@
 UPDATE certificate AS c
 LEFT JOIN
 (
-  SELECT id, COUNT(*) AS new_version
+  SELECT 
+    id, 
+    COUNT(*) AS new_version
+
   FROM certificate
   GROUP BY id
 ) sub
