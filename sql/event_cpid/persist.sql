@@ -1,4 +1,5 @@
 INSERT INTO event_cpid
 SET
-  event_id = ?,
-  cpid     = ?
+  event_id  = ?,
+  domain    = ?,
+  cpid      = ?
