@@ -1,6 +1,6 @@
 {
   "name": "@superhero/eventflow-db",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "Eventflow db is a set of common database logic in the eventflow ecosystem.",
   "keywords": [
     "eventflow"
@@ -15,7 +15,7 @@
     "@superhero/db": "^0.5.2"
   },
   "devDependencies": {
-    "@superhero/locator": "^4.3.7"
+    "@superhero/locator": "^4.4.0"
   },
   "scripts": {
     "test-build": "docker ps -q -f name=eventflow-mysql | grep -q . && docker stop eventflow-mysql; docker run --rm --name eventflow-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=eventflow -p 3306:3306 --health-cmd=\"mysqladmin ping -h 127.0.0.1 -uroot -proot --silent || exit 1\" --health-interval=10s --health-timeout=5s --health-retries=5 -d mysql:latest; until [ \"$(docker inspect --format='{{.State.Health.Status}}' eventflow-mysql)\" == \"healthy\" ]; do sleep 1; done",
