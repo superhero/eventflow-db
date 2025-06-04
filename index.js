@@ -193,8 +193,8 @@ export default class DB
     {
       const error = new Error('could not persist event')
       error.code  = 'E_EVENTFLOW_DB_EVENT_PERSIST'
-      error.cause = reason
       error.event = event
+      error.cause = reason
       throw error
     } 
   }
@@ -474,8 +474,8 @@ export default class DB
     {
       const error = new Error('could not persist event published')
       error.code  = 'E_EVENTFLOW_DB_EVENT_PUBLISHED_PERSIST'
-      error.cause = reason
       error.publishedEvent = publishedEvent
+      error.cause = reason
       throw error
     } 
   }
@@ -571,8 +571,8 @@ export default class DB
     {
       const error = new Error(`could not persist the scheduled event`)
       error.code  = 'E_EVENTFLOW_DB_SCHEDULED_EVENT_PERSIST'
-      error.cause = reason
       error.scheduledEvent = scheduledEvent
+      error.cause = reason
       throw error
     } 
   }
@@ -651,8 +651,8 @@ export default class DB
     {
       const error = new Error('could not persist hub')
       error.code  = 'E_EVENTFLOW_DB_HUB_PERSIST'
-      error.cause = reason
       error.hub   = hub
+      error.cause = reason
       throw error
     } 
   }
@@ -715,8 +715,8 @@ export default class DB
     {
       const error = new Error('could not persist log')
       error.code  = 'E_EVENTFLOW_DB_LOG_PERSIST'
-      error.cause = reason
       error.log   = log 
+      error.cause = reason
       throw error
     } 
   }
@@ -780,8 +780,8 @@ export default class DB
 
       const error = new Error(`could not persist certificate`)
       error.code  = 'E_EVENTFLOW_DB_CERTIFICATE_PERSIST'
-      error.cause = reason
       error.certificate = certificate
+      error.cause = reason
       throw error
     }
   }
