@@ -1,6 +1,6 @@
 {
   "name": "@superhero/eventflow-db",
-  "version": "4.5.0",
+  "version": "4.7.0",
   "description": "Eventflow db is a set of common database logic in the eventflow ecosystem.",
   "keywords": [
     "eventflow"
@@ -10,16 +10,19 @@
   "exports": {
     ".": "./index.js"
   },
+  "scripts": {
+    "test-build": "docker ps -q -f name=eventflow-mysql | grep -q . && docker stop eventflow-mysql; docker run --rm --name eventflow-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=eventflow -p 3306:3306 --health-cmd=\"mysqladmin ping -h 127.0.0.1 -uroot -proot --silent || exit 1\" --health-interval=10s --health-timeout=5s --health-retries=5 -d mysql:latest; until [ \"$(docker inspect --format='{{.State.Health.Status}}' eventflow-mysql)\" == \"healthy\" ]; do sleep 1; done",
+    "syntax-check": "syntax-check",
+    "test": "syntax-check; node --test --test-reporter=@superhero/audit/reporter --experimental-test-coverage"
+  },
   "dependencies": {
     "mysql2": "^3.11.5",
     "@superhero/db": "^0.5.2"
   },
   "devDependencies": {
-    "@superhero/locator": "^4.4.5"
-  },
-  "scripts": {
-    "test-build": "docker ps -q -f name=eventflow-mysql | grep -q . && docker stop eventflow-mysql; docker run --rm --name eventflow-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=eventflow -p 3306:3306 --health-cmd=\"mysqladmin ping -h 127.0.0.1 -uroot -proot --silent || exit 1\" --health-interval=10s --health-timeout=5s --health-retries=5 -d mysql:latest; until [ \"$(docker inspect --format='{{.State.Health.Status}}' eventflow-mysql)\" == \"healthy\" ]; do sleep 1; done",
-    "test": "node --trace-warnings --test --experimental-test-coverage"
+    "@superhero/audit": "4.7.0",
+    "@superhero/syntax-check": "0.0.2",
+    "@superhero/locator": "4.7.0"
   },
   "author": {
     "name": "Erik Landvall",
@@ -27,6 +30,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/superhero/eventflow-db.git"
+    "url": "https://github.com/superhero/eventflow-db.git"
   }
 }
