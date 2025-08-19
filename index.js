@@ -316,6 +316,25 @@ export default class DB
     return result
   }
 
+  async readDistinctPidByDomain(domain)
+  {
+    let result
+
+    try
+    {
+      result = await this.gateway.query('event/read-distinct-pid-by-domain', domain)
+    }
+    catch(reason)
+    {
+      const error = new Error(`could not read distinct pids by domain: ${domain}`)
+      error.code  = 'E_EVENTFLOW_DB_EVENT_READ_DISTINCT_PID_BY_DOMAIN'
+      error.cause = reason
+      throw error
+    }
+
+    return result
+  }
+
   async persistEventCpid(event_id, domain, cpid)
   {
     try

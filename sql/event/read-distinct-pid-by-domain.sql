@@ -1,0 +1,4 @@
+SELECT DISTINCT pid
+FROM event
+WHERE domain = CAST(? AS CHAR CHARACTER SET ascii) COLLATE ascii_bin
+ORDER BY pid ASC
