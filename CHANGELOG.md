@@ -1,4 +1,10 @@
 ---
+#### v4.7.17
+---
+
+added an sql query to read distinct pid by domain
+
+---
 #### v4.7.16
 ---
 
