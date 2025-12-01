@@ -7,15 +7,8 @@ import { fileURLToPath }  from 'node:url'
 
 export function locate(locator)
 {
-  const
-    config          = locator.config.find('eventflow/db', {}),
-    adapterFactory  = new AdapterFactory(),
-    adapter         = adapterFactory.create(mysql2, config),
-    filePath        = fileURLToPath(path.join(path.dirname(import.meta.url), 'sql')),
-    fileSuffix      = '.sql',
-    gateway         = new Gateway(adapter, filePath, fileSuffix)
-
-  return new DB(gateway)
+  const config = locator.config.find('eventflow/db', {})
+  return new DB(config)
 }
 
 /**
@@ -25,8 +18,15 @@ export default class DB
 {
   escape = mysql2.escape
 
-  constructor(gateway)
+  constructor(config)
   {
+    const
+      adapterFactory  = new AdapterFactory(),
+      adapter         = adapterFactory.create(mysql2, config),
+      filePath        = fileURLToPath(path.join(path.dirname(import.meta.url), 'sql')),
+      fileSuffix      = '.sql',
+      gateway         = new Gateway(adapter, filePath, fileSuffix)
+
     this.gateway = gateway
   }
 

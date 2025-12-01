@@ -137,7 +137,7 @@ suite('@superhero/eventflow-db', async () =>
         await sub.test('Persist event cpid association', async (sub) =>
         {
           const cpid = 'test_cpid'
-          const success = await db.persistEventCpid(event.id, cpid)
+          const success = await db.persistEventCpid(event.id, event.domain, cpid)
           assert.ok(success, 'Event cpid association should be persisted')
 
           await sub.test('Read events by domain and cpid', async () =>
@@ -150,12 +150,12 @@ suite('@superhero/eventflow-db', async () =>
           {
             const readCpid = await db.readEventCpidByEventId(event.id)
             assert.ok(readCpid.length > 0, 'Event cpid association should be found')
-            assert.equal(readCpid[0], cpid)
+            assert.deepEqual(readCpid[0], { cpid, domain:event.domain })
           })
 
           await sub.test('Delete associated cpid by event id', async () =>
           {
-            const success = await db.deleteEventCpid(event.id, cpid)
+            const success = await db.deleteEventCpid(event.id, event.domain, cpid)
             assert.ok(success, 'Event cpid association should be deleted')
           })
 
