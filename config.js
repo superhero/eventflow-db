@@ -17,7 +17,6 @@ export default
       debug                 : process.env.EVENTFLOW_MYSQL_DEBUG               ?? false,
       trace                 : process.env.EVENTFLOW_MYSQL_TRACE               ?? true,
       decimalNumbers        : process.env.EVENTFLOW_MYSQL_DECIMAL_NUMBERS     ?? false,
-      disableEval           : process.env.EVENTFLOW_MYSQL_DISABLE_EVAL        ?? true,
       bigNumberStrings      : process.env.EVENTFLOW_MYSQL_BIG_NUMBER_STRINGS  ?? false,
       supportBigNumbers     : process.env.EVENTFLOW_MYSQL_SUPPORT_BIG_NUMBERS ?? false,
       insecureAuth          : process.env.EVENTFLOW_MYSQL_INSECURE_AUTH       ?? false,
