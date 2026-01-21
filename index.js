@@ -792,7 +792,8 @@ export default class DB
     }
     catch(reason)
     {
-      if('ER_DUP_ENTRY' === reason.code)
+      if('DB_QUERY_ERROR' === reason.code
+      && 'ER_DUP_ENTRY'   === reason.cause.code)
       {
         return false
       }
