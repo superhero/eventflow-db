@@ -1,4 +1,14 @@
 ---
+## Version: 4.8.0
+---
+
+Bugfixed the persistCertificate to return false instead of throw error on duplicate certificate
+
+---
+
+using a new version of the db adapter
+
+---
 #### v4.7.28
 ---
 
