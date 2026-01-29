@@ -1,6 +1,7 @@
 
 import Gateway            from '@superhero/db'
 import AdapterFactory     from '@superhero/db/adapter/mysql2/factory.js'
+import Serde              from './serde.js'
 import mysql2             from 'mysql2'
 import path               from 'node:path'
 import { fileURLToPath }  from 'node:url'
@@ -16,6 +17,8 @@ export function locate(locator)
  */
 export default class DB
 {
+  serde = new Serde()
+
   escape = mysql2.escape
 
   constructor(config)
@@ -177,13 +180,18 @@ export default class DB
     return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2)
   }
 
-  async persistEvent(event)
+  async persistEvent(event, serialize = false)
   {
     try
     {
-      const
-        id    = event.id ?? this.#generateEventId(),
-        data  = JSON.stringify(event.data ?? {})
+      const id = event.id ?? this.#generateEventId()
+
+      let data = event.data ?? {}
+
+      if(serialize)
+      {
+        data = this.serde.serialize(data)
+      }
 
       await this.gateway.query('event/persist', { ...event, id, data })
 
@@ -231,7 +239,7 @@ export default class DB
     } 
   }
 
-  async readEvent(id)
+  async readEvent(id, deserialize = false)
   {
     let result
 
@@ -255,10 +263,12 @@ export default class DB
     }
 
     const event = result[0]
-    return event
+    return deserialize 
+      ? this.serde.deserialize(event) 
+      : event
   }
 
-  async readEventsByDomainAndPid(domain, pid)
+  async readEventsByDomainAndPid(domain, pid, deserialize = false)
   {
     let result
 
@@ -274,10 +284,12 @@ export default class DB
       throw error
     } 
 
-    return result
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
-  async readEventsByDomainAndPidBetweenTimestamps(domain, pid, timestampMin, timestampMax)
+  async readEventsByDomainAndPidBetweenTimestamps(domain, pid, timestampMin, timestampMax, deserialize = false)
   {
     let result
 
@@ -293,10 +305,12 @@ export default class DB
       throw error
     } 
 
-    return result
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
-  async readEventsByDomainAndPidAndNames(domain, pid, names)
+  async readEventsByDomainAndPidAndNames(domain, pid, names, deserialize = false)
   {
     let result
 
@@ -313,7 +327,9 @@ export default class DB
       throw error
     }
 
-    return result
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
   async readDistinctPidByDomain(domain)
@@ -386,11 +402,13 @@ export default class DB
     return result.map(({ domain, cpid }) => ({ domain, cpid }))
   }
 
-  async readEventsByDomainAndCpid(domain, cpid)
+  async readEventsByDomainAndCpid(domain, cpid, deserialize = false)
   {
+    let result
+    
     try
     {
-      return await this.gateway.query('event_cpid/read-by-cpid-domain', cpid, domain)
+      result = await this.gateway.query('event_cpid/read-by-cpid-domain', cpid, domain)
     }
     catch(reason)
     {
@@ -399,6 +417,10 @@ export default class DB
       error.cause = reason
       throw error
     }
+
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
   async persistEventEid(event_id, eid)
@@ -452,11 +474,13 @@ export default class DB
     return result.map((row) => row.eid)
   }
 
-  async readEventsByEid(eid)
+  async readEventsByEid(eid, deserialize = false)
   {
+    let result
+
     try
     {
-      return await this.gateway.query('event_eid/read-by-eid', eid)
+      result = await this.gateway.query('event_eid/read-by-eid', eid)
     }
     catch(reason)
     {
@@ -465,13 +489,19 @@ export default class DB
       error.cause = reason
       throw error
     }
+
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
-  async readEventsByDomainAndEid(domain, eid)
+  async readEventsByDomainAndEid(domain, eid, deserialize = false)
   {
+    let result
+
     try
     {
-      return await this.gateway.query('event_eid/read-by-eid-domain', eid, domain)
+      result = await this.gateway.query('event_eid/read-by-eid-domain', eid, domain)
     }
     catch(reason)
     {
@@ -479,7 +509,11 @@ export default class DB
       error.code  = 'E_EVENTFLOW_DB_EVENTS_READ_BY_DOMAIN_AND_EID'
       error.cause = reason
       throw error
-    } 
+    }
+
+    return deserialize
+      ? result.map(event => this.serde.deserialize(event))
+      : result
   }
 
   async persistEventPublished(publishedEvent)
@@ -727,7 +761,7 @@ export default class DB
   {
     try
     {
-      log.error = JSON.stringify(log.error ?? {})
+      log.error = log.error ? this.serde.serialize(log.error) : {}
       await this.gateway.query('log/persist', log)
     }
     catch(reason)
