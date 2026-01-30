@@ -1,7 +1,8 @@
-import Locator    from '@superhero/locator'
-import { locate } from '@superhero/eventflow-db'
-import assert     from 'node:assert/strict'
-import { after, suite, test }  from 'node:test'
+import Locator                          from '@superhero/locator'
+import { locate }                       from '@superhero/eventflow-db'
+import assert                           from 'node:assert/strict'
+import { deepEqual as structuralEqual } from 'node:assert'
+import { after, suite, test }           from 'node:test'
 
 suite('@superhero/eventflow-db', async () =>
 {
@@ -236,6 +237,69 @@ suite('@superhero/eventflow-db', async () =>
           {
             const eventlog = await db.readEventsByDomainAndPid(domain, pid)
             assert.ok(eventlog.length === 0, 'Eventlog should be empty')
+          })
+        })
+      })
+
+      await sub.test('Persisting an event with serialization enabled', async (sub) => 
+      {
+        const
+          domain  = 'serialized',
+          pid     = 'serialized',
+          name    = 'serialized',
+          date    = new Date(),
+          set     = new Set(['foo', 'bar']), 
+          map     = new Map([['foo', 'bar'], ['baz', 'qux']]), 
+          error   = new Error('foobar'), 
+          event   = { domain, pid, name, data: { set, map, error, date } },
+          id      = await db.persistEvent(event, true)
+  
+        assert.ok(id)
+    
+        await sub.test('Can read a deserialized event', async (sub) => 
+        {
+          const deserialized = await db.readEvent(id, true)
+          assert.equal(deserialized.id, id)
+    
+          await sub.test('Can read deserialized "Set"', async () => 
+          {
+            structuralEqual(deserialized.data.set, set)
+          })
+      
+          await sub.test('Can read deserialized "Map"', async () => 
+          {
+            structuralEqual(deserialized.data.map, map)
+          })
+      
+          await sub.test('Can read deserialized "Error"', async () => 
+          {
+            assert.equal(
+              deserialized.data.error instanceof Error, true, 
+              'Deserialized error should be an instance of Error')
+
+            assert.equal(
+              deserialized.data.error.message, error.message, 
+              'Deserialized error message should match original')
+
+            assert.equal(
+              deserialized.data.error.name, error.name, 
+              'Deserialized error name should match original')
+          })
+      
+          await sub.test('Can read deserialized "Date"', async () => 
+          {
+            structuralEqual(deserialized.data.date, date)
+          })
+        })
+
+        await sub.test('Can delete a serialized event', async (sub) =>
+        {
+          const success = await db.deleteEvent(id)
+          assert.ok(success, 'Event should be deleted')
+
+          await sub.test('Reading a deleted serialized event rejects', async () =>
+          {
+            await assert.rejects(db.readEvent(id))
           })
         })
       })

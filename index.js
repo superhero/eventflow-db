@@ -193,6 +193,8 @@ export default class DB
         data = this.serde.serialize(data)
       }
 
+      data = JSON.stringify(data)
+
       await this.gateway.query('event/persist', { ...event, id, data })
 
       return id
@@ -762,6 +764,7 @@ export default class DB
     try
     {
       log.error = log.error ? this.serde.serialize(log.error) : {}
+      log.error = JSON.stringify(log.error)
       await this.gateway.query('log/persist', log)
     }
     catch(reason)
