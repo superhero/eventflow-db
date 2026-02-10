@@ -264,10 +264,12 @@ export default class DB
       throw error
     }
 
-    const event = result[0]
-    return deserialize 
-      ? this.serde.deserialize(event) 
-      : event
+    if(deserialize)
+    {
+      this.deserializeEvents(result)
+    }
+
+    return result[0]
   }
 
   async readEventsByDomainAndPid(domain, pid, deserialize = false)
@@ -284,10 +286,10 @@ export default class DB
       error.code  = 'E_EVENTFLOW_DB_EVENT_READ_BY_PID'
       error.cause = reason
       throw error
-    } 
+    }
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -308,7 +310,7 @@ export default class DB
     } 
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -330,7 +332,7 @@ export default class DB
     }
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -421,7 +423,7 @@ export default class DB
     }
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -493,7 +495,7 @@ export default class DB
     }
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -514,7 +516,7 @@ export default class DB
     }
 
     return deserialize
-      ? result.map(event => this.serde.deserialize(event))
+      ? this.deserializeEvents(result)
       : result
   }
 
@@ -873,5 +875,18 @@ export default class DB
       error.cause = reason
       throw error
     }
+  }
+
+  /**
+   * @protected
+   */
+  deserializeEvents(events)
+  {
+    for(const event of events)
+    {
+      event.data = this.serde.deserialize(event.data)
+    }
+
+    return events
   }
 }
