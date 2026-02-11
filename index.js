@@ -46,7 +46,7 @@ export default class DB
   /**
    * Perform a locked operation by reference.
    */
-  async lock(reference, operation, timeout = 5)
+  async lock(reference, operation, timeout = 30)
   {
     return await this.gateway.lock(reference, operation, timeout)
   }
