@@ -1,6 +1,6 @@
 {
   "name": "@superhero/eventflow-db",
-  "version": "4.8.3-rc.1.4",
+  "version": "4.8.3",
   "description": "Eventflow db is a set of common database logic in the eventflow ecosystem.",
   "keywords": [
     "eventflow"
@@ -21,9 +21,9 @@
     "@superhero/db": "1.0.1-rc.4.0"
   },
   "devDependencies": {
-    "@superhero/audit": "4.8.2",
+    "@superhero/audit": "4.8.3",
     "@superhero/syntax-check": "0.0.2",
-    "@superhero/locator": "4.8.2"
+    "@superhero/locator": "4.8.3"
   },
   "author": {
     "name": "Erik Landvall",
