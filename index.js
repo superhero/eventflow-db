@@ -43,6 +43,14 @@ export default class DB
     await this.gateway.close()
   }
 
+  /**
+   * Perform a locked operation by reference.
+   */
+  async lock(reference, operation, timeout = 5)
+  {
+    return await this.gateway.lock(reference, operation, timeout)
+  }
+
   async createTableCertificate()
   {
     try
