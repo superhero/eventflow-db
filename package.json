@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "mysql2": "^3.16.1",
-    "@superhero/db": "1.0.1-rc.4.0"
+    "@superhero/db": "1.0.1"
   },
   "devDependencies": {
     "@superhero/audit": "4.8.3",
